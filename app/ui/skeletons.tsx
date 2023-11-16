@@ -216,3 +216,15 @@ export function InvoicesTableSkeleton() {
     </div>
   );
 }
+
+
+export function LoaderSkeleton() {
+  return (
+    <div className={` relative w-full overflow-hidden md:col-span-4`}>
+      <div className="mb-4 h-8 w-36 rounded-md bg-gray-100" />
+      <div className="rounded-xl bg-gray-100 p-4">
+      <p>Loading...........</p>
+      </div>
+    </div>
+  );
+}

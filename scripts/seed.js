@@ -61,7 +61,7 @@ async function seedInvoices(client) {
   );
 `;
 
-    console.log(`Created "invoices" table`);
+    console.log(`Created "invoices" table`,createTable);
 
     // Insert data into the "invoices" table
     const insertedInvoices = await Promise.all(

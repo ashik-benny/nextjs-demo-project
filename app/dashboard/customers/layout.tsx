@@ -5,7 +5,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="w-full flex-none md:w-64">
       </div>
       <div style={{backgroundColor:"yellow"}}>{children}</div>
-      <p>dfhgdhj</p>
     </div>
   );
 }
