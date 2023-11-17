@@ -36,6 +36,15 @@ export type State = {
     message?: string | null;
 };
 
+export type CustomerState = {
+    errors?: {
+      name?: string[];
+      email?: string[];
+      password?: string[];
+    };
+    message?: string | null;
+};
+
 // INVOICE
 
 export async function createInvoice(prevState: State, formData: FormData) {
@@ -138,42 +147,40 @@ const UserFormSchema = z.object({
 });
 const CreateUser = UserFormSchema.omit({ id: true, date: true });
 
-export async function createCustomer(prevState: State, formData: FormData) { 
-
-    // console.log(formData)
+export async function createCustomer(state: CustomerState, formData: FormData) {
     const validatedFields = CreateUser.safeParse({
-        name: formData.get('name'), 
-        email: formData.get('email'),
-        password: formData.get('password'),
+      name: formData.get('name'),
+      email: formData.get('email'),
+      password: formData.get('password'),
     });
-      // If form validation fails, return errors early. Otherwise, continue.
+  
     if (!validatedFields.success) {
-        return {
+      return {
         errors: validatedFields.error.flatten().fieldErrors,
         message: 'Missing Fields. Failed to Create Customer.',
-        };
+      };
     }
-
-    // Prepare data for insertion into the database
+  
     const { name, email, password } = validatedFields.data;
     const date = new Date().toISOString().split('T')[0];
     const image_url = getRandomImageUrl(customers);
+  
     try {
-        // SQL QUERRY FOR ADDING INTO DATABASE
-        await sql`
+      await sql`
         INSERT INTO customers (name, email, image_url) 
         VALUES (${name}, ${email}, ${image_url})`;
-        console.log("Created")
-        // return { message: 'Created Invoice.' };
+  
+      console.log("Created");
+      // You may want to return some data here if needed.
+      return { message: 'Customer created successfully.' };
     } catch (error) {
-        return { message: 'Database Error: Failed to Create User.' };
+      return { message: 'Database Error: Failed to Create User.' };
     }
-
-    // REMOVE CACHE & REVALIDATE ROUTE
-    revalidatePath('/dashboard/customers');
-    redirect('/dashboard/customers');
-
-};
+  
+    // You might not need these lines depending on your application logic.
+    // revalidatePath('/dashboard/customers');
+    // redirect('/dashboard/customers');
+  }
 
 export async function updateCustomer(id:any, prevState: State, formData: FormData) {
 
