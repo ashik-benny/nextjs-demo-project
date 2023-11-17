@@ -19,6 +19,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
   };
 
   const allPages = generatePagination(currentPage, totalPages);
+  // console.log("🚀 ~ file: pagination.tsx:22 ~ Pagination ~ allPages:", allPages)
 
   return (
     <>
